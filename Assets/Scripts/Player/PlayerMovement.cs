@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         // Logika pergerakan Player menggunakan input
         moveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-        // Menggunakan Rigidbody2D untuk menggerakkan Player
+        // Menggunakan Rigidbody2D untuk menggerakkan Player (dikali 10 untuk demo)
         rb.velocity = moveDirection * moveVelocity * Time.fixedDeltaTime * 10;
         rb.velocity = new Vector2(
             Mathf.Clamp(rb.velocity.x, -maxSpeed.x, maxSpeed.x),
