@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     public void Move()
     {
         moveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        rb.velocity = moveDirection * moveVelocity * Time.fixedDeltaTime * 10;
+        rb.velocity = moveDirection * moveVelocity * Time.fixedDeltaTime * 20;
         rb.velocity = new Vector2(
             Mathf.Clamp(rb.velocity.x, -maxSpeed.x, maxSpeed.x),
             Mathf.Clamp(rb.velocity.y, -maxSpeed.y, maxSpeed.y)
@@ -38,8 +38,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 pos = transform.position;
         Vector3 viewPos = Camera.main.WorldToViewportPoint(pos);
 
-        viewPos.x = Mathf.Clamp(viewPos.x, 0.05f, 0.95f);
-        viewPos.y = Mathf.Clamp(viewPos.y, 0.05f, 0.95f);
+        viewPos.x = Mathf.Clamp(viewPos.x, 0.03f, 0.97f);
+        viewPos.y = Mathf.Clamp(viewPos.y, 0.01f, 0.9f);
 
         transform.position = Camera.main.ViewportToWorldPoint(viewPos);
     }

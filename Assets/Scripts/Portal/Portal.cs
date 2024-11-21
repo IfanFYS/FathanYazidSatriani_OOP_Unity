@@ -51,12 +51,12 @@ public class Portal : MonoBehaviour
         bool hitBoundary = false;
 
         // Periksa apakah asteroid menyentuh batas viewport
-        if (viewPos.x <= 0.05f || viewPos.x >= 0.95f)
+        if (viewPos.x <= 0.03f || viewPos.x >= 0.99f)
         {
             moveDirection.x = -moveDirection.x; // Balik arah horizontal
             hitBoundary = true;
         }
-        if (viewPos.y <= 0.05f || viewPos.y >= 0.95f)
+        if (viewPos.y <= 0.01f || viewPos.y >= 0.91f)
         {
             moveDirection.y = -moveDirection.y; // Balik arah vertikal
             hitBoundary = true;

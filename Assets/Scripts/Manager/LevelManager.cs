@@ -13,14 +13,6 @@ public class LevelManager : MonoBehaviour
         if (sceneTransitionObject != null)
         {
             sceneTransitionAnimator = sceneTransitionObject.GetComponent<Animator>();
-            if (sceneTransitionAnimator == null)
-            {
-                Debug.LogWarning("Animator tidak ditemukan pada SceneTransition!");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("SceneTransition object tidak ditemukan di scene!");
         }
     }
 
@@ -34,13 +26,13 @@ public class LevelManager : MonoBehaviour
         if (sceneTransitionAnimator != null)
         {
             sceneTransitionAnimator.SetTrigger("StartTransition"); // Memulai animasi transisi
-            yield return new WaitForSeconds(1); // Sesuaikan dengan durasi animasi transisi
+            yield return new WaitForSeconds(2); // Sesuaikan dengan durasi animasi transisi
         }
 
         SceneManager.LoadScene(sceneName);
         
         // Setelah scene dimuat, reset posisi Player
-        yield return new WaitForSeconds(0.1f); // Tambahkan sedikit jeda
+        yield return new WaitForSeconds(0.2f); // Tambahkan sedikit jeda
         ResetPlayerPosition();
     }
 
@@ -50,10 +42,6 @@ public class LevelManager : MonoBehaviour
         if (player != null)
         {
             player.transform.position = new Vector3(0, 0, 0); // Set posisi awal
-        }
-        else
-        {
-            Debug.LogWarning("Player tidak ditemukan di scene!");
         }
     }
 }
