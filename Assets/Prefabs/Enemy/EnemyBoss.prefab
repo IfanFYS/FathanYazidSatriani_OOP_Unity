@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca2be6ce8b6a10449a18d90bb62d498e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combatManager: {fileID: 8774273259282832195, guid: dc95b64367322994e89dc38f619c2f11, type: 3}
   bullet: {fileID: 3738668260244180779, guid: 25f887b70902f2a4d819b95c0ae4f83f, type: 3}
   bulletSpawnPoint: {fileID: 8442552595001060146}
 --- !u!114 &1906437818986876580

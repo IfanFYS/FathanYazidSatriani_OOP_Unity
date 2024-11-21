@@ -70,21 +70,21 @@ public class Portal : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other)
-{
-    if (other.CompareTag("Player"))
     {
-        Debug.Log("Player collided with the asteroid, loading Main scene...");
-        LevelManager levelManager = FindObjectOfType<LevelManager>();
-        if (levelManager != null)
+        if (other.CompareTag("Player"))
         {
-            levelManager.LoadScene("Main");
-        }
-        else
-        {
-            Debug.LogWarning("LevelManager tidak ditemukan di scene!");
+            Debug.Log("Player collided with the asteroid, loading Main scene...");
+            LevelManager levelManager = FindObjectOfType<LevelManager>();
+            if (levelManager != null)
+            {
+                levelManager.LoadScene("Main");
+            }
+            else
+            {
+                Debug.LogWarning("LevelManager tidak ditemukan di scene!");
+            }
         }
     }
-}
 
 
     private void ChangePosition()
