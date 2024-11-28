@@ -1,12 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Enemy Prefabs")]
-    public GameObject spawnedEnemy;
+    public Enemy spawnedEnemy;
 
     [SerializeField] private int minimumKillsToIncreaseSpawnCount = 3;
     public int totalKill = 0;
@@ -15,48 +13,70 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float spawnInterval = 3f;
 
     [Header("Spawned Enemies Counter")]
-    public int spawnCount = 1; // Default count for the first wave
+    public int spawnCount = 0;
     public int defaultSpawnCount = 1;
     public int spawnCountMultiplier = 1;
     public int multiplierIncreaseCount = 1;
 
+    public CombatManager combatManager;
+
     public bool isSpawning = false;
 
-    private float spawnTimer = 0f;
+    private void Start()
+    {
+        spawnCount = defaultSpawnCount;  // Initialize spawn count
+    }
 
-    public void StartSpawning()
+    public void SpawnEnemy()
+    {
+        StartCoroutine(IESpawnEnemy());
+    }
+
+    IEnumerator IESpawnEnemy()
     {
         isSpawning = true;
-        spawnTimer = spawnInterval;
-    }
 
-    public void StopSpawning()
-    {
-        isSpawning = false;
-    }
-
-    private void Update()
-    {
-        if (isSpawning)
+        Debug.Log("Spawning " + spawnCount + " enemies.");
+        
+        while (spawnCount > 0)
         {
-            spawnTimer -= Time.deltaTime;
+            Enemy s = Instantiate(spawnedEnemy);
 
-            if (spawnTimer <= 0f)
-            {
-                SpawnEnemies();
-                spawnTimer = spawnInterval;
-            }
+            s.transform.parent = gameObject.transform;
+
+            s.enemyKilledEvent.AddListener(KillEnemy);
+            s.enemyKilledEvent.AddListener(combatManager.IncreaseKill);
+
+            spawnCount--;  // Decrease the number of enemies to spawn
+
+            yield return new WaitForSeconds(spawnInterval);  // Wait for the next spawn
         }
+
+        isSpawning = false;  // Stop spawning once done
     }
 
-    private void SpawnEnemies()
+    public void ResetSpawnCount()
     {
-        for (int i = 0; i < spawnCount; i++)
+        if (totalKillWave >= minimumKillsToIncreaseSpawnCount)
         {
-            Instantiate(spawnedEnemy, transform.position, Quaternion.identity);
+            spawnCountMultiplier += multiplierIncreaseCount;
+            minimumKillsToIncreaseSpawnCount *= spawnCountMultiplier;
+            totalKillWave = 0;
+
+            Debug.Log("Spawn multiplier increased: " + spawnCountMultiplier);
         }
+
+        // Reset spawn count based on the updated multiplier
+        spawnCount = defaultSpawnCount * spawnCountMultiplier;
+        Debug.Log("Spawn count reset to: " + spawnCount);
+    }
+
+    private void KillEnemy()
+    {
+        totalKill++;
+        totalKillWave++;
+        combatManager.points += spawnedEnemy.GetLevel();
+        Debug.Log("Enemy killed! Total kills: " + totalKill); // log to see how many enemies were killed
     }
 }
-
-
 
